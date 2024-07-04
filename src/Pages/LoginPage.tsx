@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../store/loginSlice';
-import { TextField, Button, Container, Typography, Box, Paper, Grid } from '@mui/material';
+import { TextField, Button, Container, Typography, Paper, Grid } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { useNavigate } from 'react-router-dom';
@@ -100,7 +100,6 @@ const Login: React.FC = () => {
                                 error={!!errors.name}
                                 helperText={errors.name}
                                 InputLabelProps={{ style: { color: 'white' } }}
-                      
                                 InputProps={{
                                     style: { color: 'white' , borderBottom: '1px solid white'},
                                     className: 'white-input',
