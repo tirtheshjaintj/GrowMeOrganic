@@ -41,11 +41,11 @@ function ResponsiveAppBar({user}:NavBarProps) {
   };
 
   return (
-    <AppBar position="fixed">
-      <Container sx={{
-            minWidth:'100%',
-            background:"#141c3a",
-        }}
+    <AppBar position="fixed" sx={{
+        minWidth:'100%',
+        background:"#141c3a",
+    }}>
+      <Container 
         >
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
