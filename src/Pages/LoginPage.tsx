@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../store/loginSlice';
-import { TextField, Button, Container, Typography,Box} from '@mui/material';
+import { TextField, Button, Container, Typography, Box, Paper, Grid } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 interface FormData {
     name: string;
     email: string;
-    phoneNumber: string; // changed to string to handle the regex validation properly
+    phoneNumber: string;
 }
 
 const nameRegex = /^[a-zA-Z\s]+$/;
@@ -20,10 +20,10 @@ const Login: React.FC = () => {
     const [formData, setFormData] = useState<FormData>({ name: '', email: '', phoneNumber: '' });
     const [errors, setErrors] = useState<FormData>({ name: '', email: '', phoneNumber: '' });
     const dispatch = useDispatch();
-    const user=useSelector((state:any)=>state.user);
-    const navigate=useNavigate();
+    const user = useSelector((state: any) => state.user);
+    const navigate = useNavigate();
 
-    const handleLogin = (e:any) => {
+    const handleLogin = (e: any) => {
         e.preventDefault();
         const userData = {
             name: formData.name.trim(),
@@ -38,14 +38,14 @@ const Login: React.FC = () => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value});
+        setFormData({ ...formData, [name]: value });
         validateField(name, value.trim());
     };
 
     const validateField = (name: string, value: string) => {
         let error = '';
-        if (name === 'name' && !nameRegex.test(value.trim()) && value.toString().trim().length<3) {
-            error = 'Name should contain only letters and spaces';
+        if (name === 'name' && (!nameRegex.test(value.trim()) || value.toString().trim().length < 3)) {
+            error = 'Name should contain only letters and spaces and be at least 3 characters long';
         }
         if (name === 'email' && !emailRegex.test(value.trim())) {
             error = 'Invalid email format';
@@ -66,104 +66,99 @@ const Login: React.FC = () => {
     };
 
     useEffect(() => {
-    if(user.name && user.email && user.phoneNumber!="0"){
-        navigate("/");
-    }
+        if (user.name && user.email && user.phoneNumber !== "0") {
+            navigate("/");
+        }
     }, [user]);
 
     return (
-            <Container
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    minHeight: '100vh',
-                    minWidth:'100vw',
-                    background:"#141c3a",
-                }}
-            >
-                   <Box 
-                   height='auto' 
-                   width={{md:"50vw",xs:"80vw"}}
-                   margin="10px"
-                   display="flex" 
-                   flexDirection='column' 
-                   >
-                    
-                    <Typography variant="h1" display="flex" justifyContent="start" alignItems="center" fontSize="30px" fontWeight="bold" color="white" gutterBottom>
-                        Login <LockOpenIcon/>
-                    </Typography>
-                    <form onSubmit={handleLogin}>
-                    <TextField
-                        label="Name"
-                        name="name"
-                        variant="outlined"
-                        margin="normal"
-                        fullWidth
-                        value={formData.name}
-                        onChange={handleChange}
-                        error={!!errors.name}
-                        helperText={errors.name}
-                        InputLabelProps={{
-                            style: { color: 'white' },
-                        }}
-                        InputProps={{
-                            style: { color: 'white', borderBottom: '1px solid white' },
-                            className: 'white-input', // Custom class for white text color
-                            autoComplete: 'off', // Turn off autocomplete suggestions
-                        }}
-                    />
-                    <TextField
-                        label="Email"
-                        name="email"
-                        variant="outlined"
-                        margin="normal"
-                        fullWidth
-                        value={formData.email}
-                        onChange={handleChange}
-                        error={!!errors.email}
-                        helperText={errors.email}
-                        InputLabelProps={{
-                            style: { color: 'white' },
-                        }}
-                        InputProps={{
-                            style: { color: 'white', borderBottom: '1px solid white' },
-                            className: 'white-input', // Custom class for white text color
-                            autoComplete: 'off', // Turn off autocomplete suggestions
-                        }}
-                    />
-                    <TextField
-                        label="Phone Number"
-                        name="phoneNumber"
-                        variant="outlined"
-                        margin="normal"
-                        fullWidth
-                        value={formData.phoneNumber}
-                        onChange={handleChange}
-                        error={!!errors.phoneNumber}
-                        helperText={errors.phoneNumber}
-                        InputLabelProps={{
-                            style: { color: 'white' },
-                        }}
-                      InputProps={{
-                            style: { color: 'white', borderBottom: '1px solid white' },
-                            className: 'white-input', // Custom class for white text color
-                            autoComplete: 'off', // Turn off autocomplete suggestions
-                        }}
-                    />
+        <Container
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                minHeight: '100vh',
+                minWidth: '100vw',
+                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+            }}
+        >
+            <Paper elevation={6} sx={{ padding: 4, borderRadius: 2, width: { md: "50vw", xs: "80vw" }, backgroundColor: "#1e2749" }}>
+                <Typography variant="h4" align="center" color="white" gutterBottom>
+                    Login <LockOpenIcon fontSize="large" />
+                </Typography>
+                <form onSubmit={handleLogin}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <TextField
+                                label="Name"
+                                name="name"
+                                variant="outlined"
+                                fullWidth
+                                value={formData.name}
+                                onChange={handleChange}
+                                error={!!errors.name}
+                                helperText={errors.name}
+                                InputLabelProps={{ style: { color: 'white' } }}
+                      
+                                InputProps={{
+                                    style: { color: 'white' , borderBottom: '1px solid white'},
+                                    className: 'white-input',
+                                    autoComplete: 'off',
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                label="Email"
+                                name="email"
+                                type="email"
+                                variant="outlined"
+                                fullWidth
+                                value={formData.email}
+                                onChange={handleChange}
+                                error={!!errors.email}
+                                helperText={errors.email}
+                                InputLabelProps={{ style: { color: 'white' } }}
+                                InputProps={{
+                                    style: { color: 'white' ,borderBottom: '1px solid white'},
+                                    className: 'white-input',
+                                    autoComplete: 'off',
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                label="Phone Number"
+                                name="phoneNumber"
+                                variant="outlined"
+                                type="tel"
+                                fullWidth
+                                value={formData.phoneNumber}
+                                onChange={handleChange}
+                                error={!!errors.phoneNumber}
+                                helperText={errors.phoneNumber}
+                                InputLabelProps={{ style: { color: 'white' ,} }}
+                                InputProps={{
+                                    style: { color: 'white' ,borderBottom: '1px solid white'},
+                                    className: 'white-input',
+                                    autoComplete: 'off',
+                                }}
+                            />
+                        </Grid>
+                    </Grid>
                     <Button
                         variant="contained"
                         color="primary"
                         type="submit"
-                        onClick={handleLogin}
-                        sx={{ mt: 2 }}
+                        fullWidth
+                        sx={{ mt: 3 }}
                     >
-                        Login<LoginIcon/>
+                        Login <LoginIcon />
                     </Button>
-                    </form>
-                </Box>
-            </Container>
+                </form>
+            </Paper>
+        </Container>
     );
 };
 
