@@ -1,4 +1,4 @@
-import {Container, Typography} from '@mui/material';
+import {Container} from '@mui/material';
 import { useSelector } from 'react-redux';
 import Navbar from "../components/Navbar";
 import PostsTable from '../components/PostsTable';
