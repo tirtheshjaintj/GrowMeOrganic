@@ -12,7 +12,7 @@ interface FormData {
     phoneNumber: string;
 }
 
-const nameRegex = /^[a-zA-Z\s]+$/;
+const nameRegex = /^(?!\s*$)(?=.{3,})[a-zA-Z\s]+$/;
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneNumberRegex = /^[0-9]{10}$/;
 
@@ -44,7 +44,7 @@ const Login: React.FC = () => {
 
     const validateField = (name: string, value: string) => {
         let error = '';
-        if (name === 'name' && (!nameRegex.test(value.trim()) || value.toString().trim().length < 3)) {
+        if (name === 'name' && (!nameRegex.test(value.trim()) || value.trim().length < 3)) {
             error = 'Name should contain only letters and spaces and be at least 3 characters long';
         }
         if (name === 'email' && !emailRegex.test(value.trim())) {

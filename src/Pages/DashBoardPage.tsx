@@ -3,11 +3,10 @@ import { useSelector } from 'react-redux';
 import Navbar from "../components/Navbar";
 import PostsTable from '../components/PostsTable';
 import Checks from '../components/Checks';
-
 function DashBoardPage() {
   const user=useSelector((state:any)=>state.user);
   return (
-    <>
+ user &&   <>
     <Navbar user={user}/>
     <Container
         sx={{
